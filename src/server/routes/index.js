@@ -10,30 +10,20 @@ const clientSecret = 'client_secret=xxxx';
 
 router.get('/beer-list', (req, res, next) => {
   https.get(`${listUrl}?${clientId}&${clientSecret}`, (response) => {
-    let body = '';
-    response.on('data', (d) => {
-      body += d;
-    });
-    response.on('end', () => {
-      let parsed = JSON.parse(body);
-      res.status(200).json(parsed);
-    });
+    let body;
+    response.on('data', (d) => body += d);
+    response.on('end', () => res.status(200).json(JSON.parse(body)));
   });
 });
 
 router.get('/top-ten', (req, res, next) => {
-  let param1 = 'limit=10';
-  let param2 = 'sort=highest_rated_you';
+  const param1 = 'limit=10';
+  const param2 = 'sort=highest_rated_you';
 
   https.get(`${topTenUrl}?${clientId}&${clientSecret}&${param1}&${param2}`, (response) => {
-    let body = '';
-    response.on('data', (d) => {
-      body += d;
-    });
-    response.on('end', () => {
-      let parsed = JSON.parse(body);
-      res.status(200).json(parsed);
-    });
+    let body;
+    response.on('data', (d) => body += d);
+    response.on('end', () => res.status(200).json(JSON.parse(body)));
   });
 });
 
